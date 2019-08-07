@@ -36,11 +36,15 @@ app.post("/getClusters",function(req,res){
 
 app.post("/setClusters",function(req,res){
 	console.log("setClusters is called");
+	let interval = setInterval(function(param1){
+		param1.writeHead(202);
+	}, 10000, res);
 	const spawn = require("child_process").spawn;
 	const pyProg = spawn('python', ['./tmscore/main.py', 'setClusters']);
 	pyProg.stdout.on('data', function(data) {
             console.log(data.toString());
             //res.status(200).json(data);
+		clearInterval(interval);
             res.send(data.toString()); 
         });
 });
